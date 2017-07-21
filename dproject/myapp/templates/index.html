@@ -1,0 +1,68 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+		.ijk{
+			margin-left:1px;
+		}
+		.def{
+
+			margin-left: 25px;
+		}
+		.abc{
+
+			margin-left: 25px;
+		}
+        body{
+        margin:40px 0px 0px 140px;
+        color:white;
+        background:url("https://s-media-cache-ak0.pinimg.com/originals/7d/82/21/7d82217e3003d99e3e8d003088c75252.jpg");
+        background-size:cover;
+        }
+
+    </style>
+    <meta charset="UTF-8">
+    <title>Instagram Clone</title>
+</head>
+<body>
+
+
+	<div class="main">
+            <h1>Instagram Clone</h1>
+            <h3>Sign Up</h3>
+    </div>
+
+    <div>
+        <form method="post">
+            {% csrf_token%}
+
+            <div>
+                <label for="username">Username: </label>
+                <input id="username" type="text" name="username" required minlength="4" value={{ username }}>
+            </div>
+
+            <div class="abc">
+<br><label for="name">Name: </label>
+                <input id="name" type="text" name="name" required value={{ name }}>
+            </div>
+
+            <div class="def">
+                <br><label for="email">Email: </label>
+                <input id="email" type="text" name="email" value={{ email }}>
+            </div>
+
+            <div class="ijk">
+                <br><label for="password">Password: </label>
+                <input id="password" type="password" name="password" required minlength="5" value={{ password }}>
+
+            </div>
+                <br><br><br><input type="submit" value="Sign Up">
+        </form>
+
+
+    </div><br><br>
+    <div><h3>Already a user?</h3><a href="login/">Login</a> </div>
+</body>
+</html>

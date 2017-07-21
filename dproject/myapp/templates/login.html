@@ -1,0 +1,41 @@
+  <form method="post">
+      {% csrf_token%}
+          <style>
+			  input[type="password"]
+{
+    font-size:24px;
+}
+
+			  input[type="text"]
+{
+    font-size:24px;
+}
+              body{
+				  font-size: 40px;
+              padding-top:150px;
+              background:url("http://i.imgur.com/7F6TcYq.jpg");
+              background-size:cover;
+              color:white;
+              }
+
+          </style>
+
+      <body>
+      <div>
+          <center>
+          <label for="username">Username: </label>
+              <input id="username" type="text" name="username" required value={{ username }}></center><br>
+      </div>
+
+      <div>
+          <center>
+          <label for="password">Password: </label>
+
+          <input id="password" type="password" name="password" required value={{ password }}>
+
+			  </div>
+
+
+      <br><center><input type="submit" value="Log In">
+      </body>
+    </form>
