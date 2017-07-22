@@ -18,12 +18,12 @@ from django.conf.urls import url
 # from django.views.generic import RedirectView
 from django.contrib import admin
 
-from myapp.views import signup_view,login_view,feed_view,post_view,comment_view,like_view,logout_view,cat_view
+from myapp.views import signup_view,login_view,feed_view,post_view,comment_view,like_view,logout_view,cat_view,user_view
 
 
 #create url's for your app
 urlpatterns = [
-
+url('user/', user_view),
 url('category', cat_view),
     url('logout/',logout_view,name='logout'),
     url('like/', like_view),

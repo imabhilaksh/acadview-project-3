@@ -242,3 +242,21 @@ def add_category(post):
             print "No Outputs List Error"
     else:
         print "Response Code Error"
+
+
+
+# for query parameters
+#(http://127.0.0.1:8000/user/?q=username of the user)
+
+def user_view(request):
+    #fetching the query
+    username = request.GET.get('q', '')
+    #finding user in database
+    user = UserModel.objects.filter(username = username).first()
+    if user:
+        # post posted by this user
+        posts = PostModel.objects.filter(user=user)
+        if posts:
+            return render(request, 'onlypost.html', {'posts':posts})
+
+    return redirect('/signup/')
