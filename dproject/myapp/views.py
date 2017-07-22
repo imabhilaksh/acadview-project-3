@@ -140,7 +140,7 @@ def like_view(request):
             if not existing_like:
                 LikeModel.objects.create(post_id=post_id, user=user)
                 d=LikeModel.objects.filter(post_id=post_id,user=user).first()
-                to=d.user.email
+                to=d.post.user.email
                 subject = 'Django App '
                 message = "Someone just liked your post "
                 from_email = settings.EMAIL_HOST_USER
@@ -173,7 +173,7 @@ def comment_view(request):
             subject = 'Django App '
             message = "Someone just commented on your post"
             from_email = settings.EMAIL_HOST_USER
-            to_list = [comment.user.email, settings.EMAIL_HOST_USER]
+            to_list = [comment.post.user.email, settings.EMAIL_HOST_USER]
             send_mail(subject, message, from_email, to_list, fail_silently=True)
 
             return redirect('/feed/')
