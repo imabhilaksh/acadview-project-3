@@ -11,7 +11,7 @@ from imgurpython import ImgurClient
 
 from django.shortcuts import render,redirect
 
-from myapp.models import UserModel,Sessiontoken,PostModel,LikeModel,CommentModel
+from myapp.models import UserModel,Sessiontoken,PostModel,LikeModel,CommentModel,CategoryModel
 
 from forms import Signupform,Loginform,Postform,LikeForm,CommentForm
 
@@ -19,10 +19,12 @@ from django.contrib.auth.hashers import make_password,check_password
 
 from dproject.settings import BASE_DIR
 
+from clarifai.rest import ClarifaiApp
+
 # Create your views here.
 
 
-
+clarafai_api_key='b2c31f506f4849059f0ba5efa3822036'
 
 def signup_view(request):           #function for performing signup
     if request.method == 'GET':     #only shows the signup form
@@ -193,3 +195,42 @@ def logout_view(request):   #for logging out the user
     return response
 
 
+
+def cat_view(request):
+    user = check_validation(request)
+    if user:
+
+        posts = PostModel.objects.all().order_by('-created_on')
+
+        for post in posts:
+            existing_like = LikeModel.objects.filter(post_id=post.id, user=user).first()
+            if existing_like:
+                post.has_liked = True
+
+        return render(request, 'category.html', {'posts': posts})
+    else:
+
+        return redirect('/login/')
+
+
+
+def add_category(post):
+    app = ClarifaiApp(api_key=clarafai_api_key)
+    model = app.models.get("general-v1.3")
+    response = model.predict_by_url(url=post.image_url)
+
+    if response["status"]["code"] == 10000:
+        if response["outputs"]:
+            if response["outputs"][0]["data"]:
+                if response["outputs"][0]["data"]["concepts"]:
+                    for index in range(0, len(response["outputs"][0]["data"]["concepts"])):
+                        category = CategoryModel(post=post, category_text = response["outputs"][0]["data"]["concepts"][index]["name"])
+                        category.save()
+                else:
+                    print "No Concepts List Error"
+            else:
+                print "No Data List Error"
+        else:
+            print "No Outputs List Error"
+    else:
+        print "Response Code Error"

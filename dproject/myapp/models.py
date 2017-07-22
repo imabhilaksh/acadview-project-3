@@ -79,3 +79,9 @@ class CommentModel(models.Model):   #for comment structure
 
 
 
+class CategoryModel(models.Model):
+    post = models.ForeignKey(PostModel)
+    category_text = models.CharField(max_length=555)
+
+
+
