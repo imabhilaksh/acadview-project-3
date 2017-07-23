@@ -260,3 +260,5 @@ def user_view(request):
             return render(request, 'onlypost.html', {'posts':posts})
 
     return redirect('/signup/')
+
+
